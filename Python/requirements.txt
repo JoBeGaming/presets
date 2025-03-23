@@ -1,0 +1,3 @@
+# requirements.txt
+# Requirements for [PROJECT_NAME]
+
