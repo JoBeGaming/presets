@@ -1,3 +1,4 @@
 # requirements.txt
+# template version 0.1
 # Requirements for [PROJECT_NAME]
 
