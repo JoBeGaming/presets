@@ -5,4 +5,4 @@
 <!--CSpell: words...-->
 <!--mdlint...-->
 
-#[PROJECT_NAME]
+# [PROJECT_NAME]
