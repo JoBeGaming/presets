@@ -1,5 +1,5 @@
 # .gitignore preset 
-# Version 0.3
+# Version 0.4
 
 # Slightly edited .gitignore template
 # Byte-compiled / optimized / DLL files
@@ -179,4 +179,6 @@ cython_debug/
 [FOLDER]/logs/
 
 # GitHub files
-.gitkeep
+#  Uncommenting this will make folders that usually pass the addition process fail, and
+#  therefore our folder sturcture will be significantly different.
+#.gitkeep
