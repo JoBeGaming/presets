@@ -1,0 +1,133 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Python",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${file}",
+
+                // Here we use the `-o` flag in order to be able
+                // to run Python in optimized mode.
+
+                // Sadly this makes us not able to use `assert`;
+                //
+                //     if ...:
+                //         raise AssertionError("...")
+                // still works however.
+                "-o",
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run mypy",
+            "type": "shell",
+            "command": "mypy",
+            "args": [
+                "${file}",
+
+                // Turn this on in order to override every other custom setting
+                // to the absolute maximum.
+                // "--strict",
+
+                // Make mypy run freshly each time it is run. This avoides issues
+                // for the cache, if changing versions, but it also makes mypy
+                // take longer for each run.
+                "--no-incremental",
+
+                // Exclude any `.py` or `.pyi` files, that are
+                // part of a `.gitignore` file in the current
+                // directory.
+                // "--exclude=...", // <-- REGEX
+                // "--exclude-gitignore",
+
+                // Sadly there is no `--follow-non-stdlib-imports`,
+                // so this will follow all imports. This makes the
+                // standard library a place for errors to stem from.
+                "--follow-untyped-imports",
+
+                // If this flag is enabled, site packages, and stubs
+                // will also raise errors.
+                // "--no-silence-site-packages",
+
+                // "--fast-module-lookup",
+                // "--disallow-any-generics",
+                // "--disallow-subclassing-any",
+                // "--check-untyped-defs",
+                // "--disallow-untyped-calls",
+                // "--disallow-untyped-defs",
+
+                // Untyped function / type decorators should NEVER exist;
+                // this is simply to guard against exactly that.
+                "--disallow-untyped-decorators",
+
+                // Using casts should not be necessary; using them
+                // redundantly however, should be even more frowned upon.
+                "--warn-redundant-casts",
+
+                // Similar to something like:
+                // pyright: reportUnnecessaryTypeIgnoreComment.
+                "--warn-unused-ignores",
+
+                // This disallows functions from returning some `Any`, even
+                // though their return type is not `Any`. E.g.:
+                //
+                //     def fn(x: Any) -> int:
+                //         return x                  # type error right here
+                "--warn-return-any",
+
+                // Warn users about any code deemed unreachable, except:
+                // - It raises some exception
+                // - It ends in an `assert False`
+                // - It contains a call to a function returning `Never`
+                "--warn-unreachable",
+
+                // Sadly mypy does not yet fully understand Unions in the
+                // correct way, BUT this flag allows us to experimentally
+                // evaluate Unions in a correct form.
+                "--allow-redefinition-new",
+
+                // Disallow unannotated `None` on top level.
+                "--local-partial-types",
+
+                // Sadly right now, imported symbols are treated as being
+                // exported again, even if they are not part of `__all__`.
+                // This flag simply disallows this.
+                "--no-implicit-reexport",
+
+                // `bytearray` and `memoryview` are not subtypes of `bytes`,
+                // but mypy treats them like such. In order to fix this, this
+                // flag allows errors to be raised in such situations.
+                "--strict-bytes",
+
+                // Some checks are deemed 'impractical', and therefore turned
+                // off by default. This flag turns them back on again.
+                "--extra-checks",
+
+                // Show the index (starting at 0) of the column of any error.
+                "--show-column-numbers",
+
+                // Show the end column of the section of some error.
+                "--show-error-end",
+
+                // Get notified about any incomplete annotation in stubs, which
+                // for some reason is not default behavior.
+                "--warn-incomplete-stub",
+
+                // A sadly not yet implemented feature to allow tuples of any length
+                // to be expressed correctly. Workarounds would be complicated 
+                // (see Tasop/outdated/MinType.py).
+                "--enable-incomplete-feature=PreciseTupleTypes",
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Python + mypy",
+            // Usually mypy takes longer to run than Python does. 
+            // It also makes the output of our 'Python run' disappear
+            "dependsOn": ["Run mypy", "Run Python"],
+            "dependsOrder": "parallel"
+        }
+    ]
+}
