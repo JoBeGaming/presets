@@ -16,7 +16,7 @@
                 //     if ...:
                 //         raise AssertionError("...")
                 // still works however.
-                "-o",
+                "-o"
             ],
             "problemMatcher": []
         },
@@ -118,7 +118,7 @@
                 // A sadly not yet implemented feature to allow tuples of any length
                 // to be expressed correctly. Workarounds would be complicated 
                 // (see Tasop/outdated/MinType.py).
-                "--enable-incomplete-feature=PreciseTupleTypes",
+                "--enable-incomplete-feature=PreciseTupleTypes"
             ],
             "problemMatcher": []
         },
